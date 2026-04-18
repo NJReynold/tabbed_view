@@ -6,22 +6,20 @@ import 'theme/tabbed_view_theme_constants.dart';
 
 /// Configures a tab button.
 class TabButton {
-  TabButton._(
-      {required this.icon,
-      required this.menuBuilder,
-      required this.color,
-      required this.hoverColor,
-      required this.disabledColor,
-      required this.background,
-      required this.hoverBackground,
-      required this.disabledBackground,
-      required this.onPressed,
-      required this.toolTip,
-      required this.padding,
-      required double? iconSize})
-      : this.iconSize = iconSize == null
-            ? iconSize
-            : TabbedViewThemeConstants.normalize(iconSize);
+  TabButton({
+    this.icon,
+    this.menuBuilder,
+    this.color,
+    this.hoverColor,
+    this.disabledColor,
+    this.background,
+    this.hoverBackground,
+    this.disabledBackground,
+    this.onPressed,
+    this.toolTip,
+    this.padding,
+    double? iconSize,
+  }) : this.iconSize = iconSize == null ? iconSize : TabbedViewThemeConstants.normalize(iconSize);
 
   factory TabButton.icon(IconProvider icon,
       {EdgeInsetsGeometry? padding,
@@ -34,7 +32,7 @@ class TabButton {
       BoxDecoration? disabledBackground,
       String? toolTip,
       double? iconSize}) {
-    return TabButton._(
+    return TabButton(
         icon: icon,
         menuBuilder: null,
         padding: padding,
@@ -59,7 +57,7 @@ class TabButton {
       BoxDecoration? disabledBackground,
       String? toolTip,
       double? iconSize}) {
-    return TabButton._(
+    return TabButton(
         icon: null,
         menuBuilder: menuBuilder,
         padding: padding,

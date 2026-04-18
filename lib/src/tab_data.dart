@@ -53,7 +53,7 @@ import 'typedefs/tab_label_builder.dart';
 /// * [TabbedView.viewBuilder]
 class TabData extends ChangeNotifier {
   TabData({
-    required this.id,
+    Object? id,
     Object? value,
     String? text,
     this.textProvider,
@@ -67,7 +67,9 @@ class TabData extends ChangeNotifier {
     double? textSize,
     this.draggable = true,
     this.keepAlive = false,
-  })  : _value = value,
+  })  : 
+_id = id,
+        _value = value,
         _text = text,
         _tooltip = tooltip,
         _leading = leading,
@@ -77,10 +79,33 @@ class TabData extends ChangeNotifier {
         _buttonsBuilder = buttonsBuilder,
         _textSize = textSize != null ? math.max(0, textSize) : null,
         _tabKey = ValueKey(id),
-        _contentKey = keepAlive ? GlobalObjectKey(id) : ValueKey(id);
+        _contentKey = keepAlive ? GlobalObjectKey(id ?? Object.hash(
+      id,
+      value,
+      text,
+      textProvider,
+      labelBuilder,
+      tooltip,
+      buttonsBuilder,
+      view,
+      listenable,
+      leading,
+      closable,
+      textSize,
+      draggable,
+      keepAlive,
+    )) : ValueKey(id);
 
   /// The unique identifier of this tab.
-  final Object id;
+  //final Object? id;
+  Object? _id;
+  Object get id => _id ?? _contentKey;
+  set id(Object? id) {
+    if (_id != id) {
+      _id = id;
+      notifyListeners();
+    }
+  }
 
   /// Identifies the content of the tab in the tree
   final Key _tabKey;
@@ -175,6 +200,27 @@ class TabData extends ChangeNotifier {
       _labelBuilder = value;
       notifyListeners();
     }
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode {
+    return Object.hash(
+      id,
+      value,
+      text,
+      textProvider,
+      labelBuilder,
+      tooltip,
+      buttonsBuilder,
+      view,
+      listenable,
+      leading,
+      closable,
+      textSize,
+      draggable,
+      keepAlive,
+    );
   }
 }
 
